@@ -1,4 +1,4 @@
-name: Java CI
+name: Java CI (Maven Advanced)
 
 on:
   push:
@@ -10,14 +10,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # 1. Checkout code
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
+    # 2. Setup Java
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
+        cache: 'maven'   # 🔥 Built-in caching (better than manual)
 
+    # 3. Build project
     - name: Build with Maven
-      run: mvn clean install
+      run: mvn -B clean install
+
+    # 4. Run tests separately (clear visibility)
+    - name: Run Tests
+      run: mvn test
+
+    # 5. Upload test reports (VERY IMPORTANT for viva)
+    - name: Upload Test Reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: Test-Reports
+        path: target/surefire-reports/
+
+    # 6. Upload build artifact (JAR file)
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: App-JAR
+        path: target/*.jar
