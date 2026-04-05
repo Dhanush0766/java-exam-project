@@ -20,27 +20,27 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
-        cache: 'maven'   # 🔥 Built-in caching (better than manual)
+        cache: 'maven'
 
     # 3. Build project
     - name: Build with Maven
       run: mvn -B clean install
 
-    # 4. Run tests separately (clear visibility)
+    # 4. Run tests
     - name: Run Tests
       run: mvn test
 
-    # 5. Upload test reports (VERY IMPORTANT for viva)
+    # 5. Upload test reports
     - name: Upload Test Reports
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4   # ✅ FIXED
       with:
         name: Test-Reports
         path: target/surefire-reports/
 
-    # 6. Upload build artifact (JAR file)
+    # 6. Upload JAR file
     - name: Upload Build Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4   # ✅ FIXED
       with:
         name: App-JAR
         path: target/*.jar
