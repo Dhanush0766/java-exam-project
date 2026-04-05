@@ -19,8 +19,5 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Build
-      run: javac YourFile.java
-
-    - name: Run
-      run: java YourFile
+    - name: Build with Maven
+      run: mvn clean install
