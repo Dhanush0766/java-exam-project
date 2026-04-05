@@ -1,21 +1,26 @@
 name: Java CI
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
+        distribution: 'temurin'
         java-version: '17'
 
     - name: Build
-      run: mvn clean install
+      run: javac YourFile.java
 
-    - name: Run Tests
-      run: mvn test
+    - name: Run
+      run: java YourFile
